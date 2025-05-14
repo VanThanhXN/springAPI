@@ -36,7 +36,6 @@ public class ProductController {
                 .build();
     }
 
-
     @PutMapping("/upload/{productId}")
     public ApiResponse<ProductResponse> updateProduct(@PathVariable Long productId,
                                                       @RequestPart("product") ProductRequest productRequest,

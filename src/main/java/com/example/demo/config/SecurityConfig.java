@@ -16,6 +16,7 @@ import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
 import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.security.web.SecurityFilterChain;
 import org.springframework.security.web.authentication.UsernamePasswordAuthenticationFilter;
+
 @Configuration
 @EnableWebSecurity
 @RequiredArgsConstructor
@@ -25,7 +26,7 @@ public class SecurityConfig {
     private final com.example.demo.config.JwtAuthenticationFilter jwtAuthFilter;
 
     private static final String[] PUBLIC_POST_ENDPOINTS = {
-            "/auth/login", "/auth/register"
+             "/auth/login", "/auth/register"
     };
 
     @Bean
@@ -33,7 +34,8 @@ public class SecurityConfig {
         http
                 .csrf(AbstractHttpConfigurer::disable)
                 .authorizeHttpRequests(auth -> auth
-                        .anyRequest().permitAll()  // Tất cả các yêu cầu đều được phép truy cập
+                        .requestMatchers(HttpMethod.POST, PUBLIC_POST_ENDPOINTS).permitAll()
+                        .anyRequest().authenticated()
                 )
                 .sessionManagement(sess -> sess.sessionCreationPolicy(SessionCreationPolicy.STATELESS))
                 .addFilterBefore(jwtAuthFilter, UsernamePasswordAuthenticationFilter.class);

@@ -15,9 +15,9 @@ public class ProductResponse {
     private String description;
     private BigDecimal price;
     private BigDecimal salePrice;
-    private String categoryName;
     private Integer stock;
-    private String imageUrls;
+    private String imageUrl;
     private Double rating;
     private ProductStatus status;
+    private String categoryName;
 }

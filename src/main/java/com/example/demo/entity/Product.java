@@ -4,6 +4,7 @@ import jakarta.persistence.*;
 import lombok.*;
 import java.math.BigDecimal;
 import java.time.LocalDateTime;
+import java.util.List;
 
 @Entity
 @Table(name = "products")
@@ -36,9 +37,8 @@ public class Product {
 
     private Integer stock;
 
-    @Column(name = "image_urls", columnDefinition = "JSON")
-    private String imageUrls;
-
+    @Column(name = "image_urls") // Nếu tên cột khác với tên trường
+    private String imageUrl;
 
     private Double rating;
 

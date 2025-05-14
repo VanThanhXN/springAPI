@@ -1,14 +1,15 @@
 package com.example.demo.dto.Request;
 
-import lombok.Getter;
-import lombok.Setter;
+import jakarta.validation.constraints.NotNull;
+import lombok.Builder;
+import lombok.Data;
 
-import java.util.UUID;
-
-@Getter
-@Setter
+@Data
+@Builder
 public class CartRequest {
-    private UUID userId; // ✅ Đúng kiểu
+    @NotNull(message = "Product ID cannot be null")
     private Long productId;
+
+    @NotNull(message = "Quantity cannot be null")
     private Integer quantity;
 }

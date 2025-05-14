@@ -15,6 +15,8 @@ public interface ProductRepository extends JpaRepository<Product, Long> {
     List<Product> findByCategoryCategoryId(Long categoryId);
     @Query("SELECT p FROM Product p WHERE p.rating IS NOT NULL ORDER BY p.rating DESC LIMIT 1")
     Optional<Product> findTopByOrderByRatingDesc();
+    boolean existsByName(String username);
+
 
 
 }

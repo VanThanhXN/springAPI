@@ -43,20 +43,26 @@ public class ProductServiceImpl implements ProductService {
 
     @Override
     public ProductResponse addProduct(ProductRequest request, MultipartFile image) {
-        // Tạo một đối tượng Product từ ProductRequest
-        Product product = productMapper.toProduct(request);
 
-        // Upload ảnh nếu có và cập nhật URL ảnh
-        if (image != null && !image.isEmpty()) {
-            String imageUrl = uploadImage(image);
-            product.setImageUrls(imageUrl);
+        if (productRepository.existsByName(request.getName())) {
+            throw new AppException(ErrorCode.PRODUCT_NAME_ALREADY_EXISTS);
         }
 
-        // Lưu sản phẩm mới
-        Product savedProduct = productRepository.save(product);
 
-        // Trả về ProductResponse từ sản phẩm đã lưu
-        return productMapper.toResponse(savedProduct);
+        Category category = categoryRepository.findById(request.getCategoryId())
+                .orElseThrow(() -> new AppException(ErrorCode.CATEGORY_NOT_FOUND));
+
+        Product product = productMapper.toProduct(request);
+        product.setCategory(category);  // Gắn sản phẩm với danh mục
+
+        // Upload ảnh lên Cloudinary nếu có
+        if (image != null && !image.isEmpty()) {
+            String imageUrl = uploadImage(image);  // Gọi hàm upload để lưu ảnh lên Cloudinary
+            product.setImageUrl(imageUrl);         // Lưu URL ảnh vào product
+        }
+
+        Product savedProduct = productRepository.save(product); // Lưu sản phẩm vào DB
+        return productMapper.toResponse(savedProduct);          // Trả về ProductResponse
     }
 
     @Override
@@ -64,24 +70,27 @@ public class ProductServiceImpl implements ProductService {
         Product existingProduct = productRepository.findById(productId)
                 .orElseThrow(() -> new AppException(ErrorCode.PRODUCT_NOT_FOUND));
 
-        // Ánh xạ thông tin cập nhật từ ProductRequest vào Product đã tồn tại
-        productMapper.toUpdatedProduct(productRequest, existingProduct);
-
-        // Upload ảnh và cập nhật URL ảnh nếu có
-        if (image != null && !image.isEmpty()) {
-            String imageUrl = uploadImage(image);  // Gọi phương thức uploadImage
-            existingProduct.setImageUrls(imageUrl);  // Cập nhật URL ảnh vào sản phẩm
+        if (productRepository.existsByName(productRequest.getName()) &&
+                !existingProduct.getName().equalsIgnoreCase(productRequest.getName())) {
+            throw new AppException(ErrorCode.PRODUCT_NAME_ALREADY_EXISTS);
         }
 
-        // Lưu sản phẩm đã cập nhật
-        Product updatedProduct = productRepository.save(existingProduct);
-        return productMapper.toResponse(updatedProduct);
+        productMapper.toUpdatedProduct(productRequest, existingProduct);  // Cập nhật thông tin sản phẩm
+
+        // Cập nhật ảnh nếu có
+        if (image != null && !image.isEmpty()) {
+            String imageUrl = uploadImage(image);  // Gọi hàm upload để lưu ảnh lên Cloudinary
+            existingProduct.setImageUrl(imageUrl); // Lưu URL ảnh vào sản phẩm
+        }
+
+        Product updatedProduct = productRepository.save(existingProduct);  // Lưu sản phẩm đã cập nhật
+        return productMapper.toResponse(updatedProduct);                    // Trả về ProductResponse
     }
 
     @Override
     public void deleteProduct(Long productId) {
         Product product = productRepository.findById(productId)
-                .orElseThrow(() -> new AppException(ErrorCode.USER_NOT_FOUND));
+                .orElseThrow(() -> new AppException(ErrorCode.PRODUCT_NOT_FOUND));
         productRepository.delete(product);
     }
 
@@ -106,10 +115,11 @@ public class ProductServiceImpl implements ProductService {
 
     private String uploadImage(MultipartFile image) {
         try {
+            // Upload ảnh lên Cloudinary
             Map<?, ?> uploadResult = cloudinary.uploader().upload(image.getBytes(), ObjectUtils.emptyMap());
-            return uploadResult.get("secure_url").toString();
+            return uploadResult.get("secure_url").toString();  // Lấy URL ảnh từ kết quả trả về
         } catch (Exception e) {
-            throw new AppException(ErrorCode.INTERNAL_SERVER_ERROR);  // Cải thiện xử lý lỗi
+            throw new AppException(ErrorCode.UPLOAD_FAILED);  // Xử lý lỗi khi tải ảnh lên
         }
     }
 }

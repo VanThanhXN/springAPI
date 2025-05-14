@@ -10,7 +10,7 @@ import java.util.Optional;
 public interface CategoryRepository extends JpaRepository<Category, Long> {
     Optional<Category> findByName(String name);
     List<Category> findByNameContainingIgnoreCase(String name);
-//    List<Cart> findByUser_UserId(Long userId);
+    Optional<Category> findById(Long id);
 
 
 }

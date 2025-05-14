@@ -1,13 +1,15 @@
 package com.example.demo.dto.Response;
 
-import lombok.Getter;
-import lombok.Setter;
+import lombok.Builder;
+import lombok.Data;
 
-@Getter
-@Setter
+import java.math.BigDecimal;
+import java.util.List;
+
+@Data
+@Builder
 public class CartResponse {
-    private Long cartId;
-    private Long userId;
-    private Long productId;
-    private Integer quantity;
+    private List<CartItemResponse> items;
+    private BigDecimal totalPrice;
+    private int totalItems;
 }
