@@ -42,23 +42,20 @@ public class ProductServiceImpl implements ProductService {
     }
 
     @Override
-    public ProductResponse addProduct(ProductRequest productRequest, MultipartFile image) {
-        // Tìm Category dựa trên categoryId
-        Category category = categoryRepository.findById(productRequest.getCategoryId())
-                .orElseThrow(() -> new AppException(ErrorCode.CATEGORY_NOT_FOUND));
+    public ProductResponse addProduct(ProductRequest request, MultipartFile image) {
+        // Tạo một đối tượng Product từ ProductRequest
+        Product product = productMapper.toProduct(request);
 
-        // Tạo sản phẩm và gán Category vào sản phẩm
-        Product product = productMapper.toProduct(productRequest);
-        product.setCategory(category);
-
-        // Upload ảnh và lấy URL
+        // Upload ảnh nếu có và cập nhật URL ảnh
         if (image != null && !image.isEmpty()) {
-            String imageUrl = uploadImage(image);  // Gọi phương thức uploadImage
-            product.setImageUrls(imageUrl);  // Lưu URL ảnh vào sản phẩm
+            String imageUrl = uploadImage(image);
+            product.setImageUrls(imageUrl);
         }
 
-        // Lưu sản phẩm
+        // Lưu sản phẩm mới
         Product savedProduct = productRepository.save(product);
+
+        // Trả về ProductResponse từ sản phẩm đã lưu
         return productMapper.toResponse(savedProduct);
     }
 
@@ -80,8 +77,6 @@ public class ProductServiceImpl implements ProductService {
         Product updatedProduct = productRepository.save(existingProduct);
         return productMapper.toResponse(updatedProduct);
     }
-
-
 
     @Override
     public void deleteProduct(Long productId) {
@@ -117,12 +112,4 @@ public class ProductServiceImpl implements ProductService {
             throw new AppException(ErrorCode.INTERNAL_SERVER_ERROR);  // Cải thiện xử lý lỗi
         }
     }
-
 }
-
-
-
-
-
-
-

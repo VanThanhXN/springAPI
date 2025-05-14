@@ -1,6 +1,5 @@
 package com.example.demo.controller;
 
-
 import com.example.demo.dto.Request.ProductRequest;
 import com.example.demo.dto.Response.ProductResponse;
 import com.example.demo.dto.Response.ApiResponse;
@@ -8,14 +7,11 @@ import com.example.demo.service.ProductService;
 import lombok.RequiredArgsConstructor;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.PageRequest;
-import org.springframework.http.HttpStatus;
-import org.springframework.http.ResponseEntity;
-import org.springframework.security.access.prepost.PreAuthorize;
 import org.springframework.web.bind.annotation.*;
 import org.springframework.web.multipart.MultipartFile;
 
 import java.util.List;
-import java.util.UUID;
+
 @RestController
 @RequestMapping("/products")
 @RequiredArgsConstructor
@@ -31,14 +27,12 @@ public class ProductController {
         return ApiResponse.<Page<ProductResponse>>builder().result(products).build();
     }
 
-
     @PostMapping("/add")
-    public ApiResponse<ProductResponse> addProduct(@RequestPart("product") ProductRequest productRequest,
-                                                   @RequestPart("image") MultipartFile image) {
-        ProductResponse productResponse = productService.addProduct(productRequest, image);
+    public ApiResponse<ProductResponse> addProduct(@ModelAttribute ProductRequest productRequest,
+                                                   @RequestParam(value = "image", required = false) MultipartFile image) {
+        ProductResponse response = productService.addProduct(productRequest, image);
         return ApiResponse.<ProductResponse>builder()
-                .result(productResponse)
-                .message("Sản phẩm đã được thêm thành công!")
+                .result(response)
                 .build();
     }
 
@@ -47,13 +41,12 @@ public class ProductController {
     public ApiResponse<ProductResponse> updateProduct(@PathVariable Long productId,
                                                       @RequestPart("product") ProductRequest productRequest,
                                                       @RequestPart(value = "image", required = false) MultipartFile image) {
-        ProductResponse updatedProduct = productService.updateProduct(productId, productRequest, image);  // Chuyển MultipartFile
+        ProductResponse updatedProduct = productService.updateProduct(productId, productRequest, image);
         return ApiResponse.<ProductResponse>builder()
                 .result(updatedProduct)
                 .message("Sản phẩm đã được cập nhật thành công!")
                 .build();
     }
-
 
     @DeleteMapping("/{productId}")
     public ApiResponse<String> deleteProduct(@PathVariable Long productId) {
@@ -75,5 +68,3 @@ public class ProductController {
         return ApiResponse.<List<ProductResponse>>builder().result(products).build();
     }
 }
-
-

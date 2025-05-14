@@ -11,7 +11,7 @@ import java.util.UUID;
 
 public interface ProductService {
     Page<ProductResponse> getAllProducts(Pageable pageable);
-    ProductResponse addProduct(ProductRequest productRequest, MultipartFile image); // Cập nhật với MultipartFile
+    ProductResponse addProduct(ProductRequest request, MultipartFile image); // Cập nhật với MultipartFile
     ProductResponse updateProduct(Long productId, ProductRequest productRequest, MultipartFile image); // Cập nhật với MultipartFile
     void deleteProduct(Long productId);
     List<ProductResponse> searchProducts(String name);

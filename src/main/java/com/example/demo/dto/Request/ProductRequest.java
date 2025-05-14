@@ -9,13 +9,13 @@ import java.math.BigDecimal;
 
 @Data
 @Builder
-public class ProductRequest  {
+public class ProductRequest {
     @NotNull(message = "Name cannot be null")
     private String name;
     private String description;
     private BigDecimal price;
     private BigDecimal salePrice;
-    private Long categoryId;  // Sử dụng categoryId thay vì categoryName
+    private Long categoryId;
     private Integer stock;
-    private String imageUrls;
+    private MultipartFile image;
 }

@@ -39,6 +39,7 @@ public class Product {
     @Column(name = "image_urls", columnDefinition = "JSON")
     private String imageUrls;
 
+
     private Double rating;
 
     @Enumerated(EnumType.STRING)
