@@ -27,7 +27,9 @@ public class OrderController {
     private User getCurrentUser() {
         Authentication authentication = SecurityContextHolder.getContext().getAuthentication();
         String username = authentication.getName();
-        System.out.println("Searching for username: " + username); // Thêm dòng này
+        System.out.println("Current username: " + username); // Log để debug
+
+        // Thêm @EntityGraph để load các quan hệ cần thiết ngay từ đầu
         return userRepository.findByUsername(username)
                 .orElseThrow(() -> new AppException(ErrorCode.USER_NOT_FOUND));
     }
