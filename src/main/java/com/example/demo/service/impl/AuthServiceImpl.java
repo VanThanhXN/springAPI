@@ -1,5 +1,7 @@
 package com.example.demo.service.impl;
 
+import com.cloudinary.Cloudinary;
+import com.cloudinary.utils.ObjectUtils;
 import com.example.demo.Repository.UserRepository;
 
 import com.example.demo.dto.Request.ChangePasswordRequest;
@@ -22,8 +24,11 @@ import org.springframework.security.core.Authentication;
 import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.stereotype.Service;
+import org.springframework.web.multipart.MultipartFile;
 
+import java.io.IOException;
 import java.time.LocalDateTime;
+import java.util.Map;
 
 @Service
 @RequiredArgsConstructor
@@ -34,6 +39,8 @@ public class AuthServiceImpl implements AuthService {
     private final PasswordEncoder passwordEncoder;
     private final AuthenticationManager authenticationManager;
     private final JwtService jwtService;
+    private final Cloudinary cloudinary;
+
 
     @Override
     public UserCreateRepose register(UserCreateRequest request) {
@@ -102,6 +109,28 @@ public class AuthServiceImpl implements AuthService {
 
         user.setPassword(passwordEncoder.encode(request.getNewPassword()));
         userRepository.save(user);
+    }
+
+    @Override
+    public UserResponse uploadMyAvatar(String username, MultipartFile file) {
+        User user = userRepository.findByUsername(username)
+                .orElseThrow(() -> new AppException(ErrorCode.USER_NOT_FOUND));
+
+        try {
+            // Upload ảnh lên Cloudinary
+            Map<?, ?> uploadResult = cloudinary.uploader().upload(file.getBytes(),
+                    ObjectUtils.asMap("folder", "avatars"));
+            String avatarUrl = uploadResult.get("secure_url").toString();
+
+            // Cập nhật avatar cho user
+            user.setAvatar(avatarUrl);
+            user.setUpdatedAt(LocalDateTime.now());
+            userRepository.save(user);
+
+            return userMapper.toUserResponse(user);
+        } catch (IOException e) {
+            throw new AppException(ErrorCode.UPLOAD_FAILED);
+        }
     }
 
 }

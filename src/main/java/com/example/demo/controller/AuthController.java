@@ -13,6 +13,7 @@ import lombok.RequiredArgsConstructor;
 import org.springframework.security.core.Authentication;
 import org.springframework.security.core.annotation.AuthenticationPrincipal;
 import org.springframework.web.bind.annotation.*;
+import org.springframework.web.multipart.MultipartFile;
 
 @RestController
 @RequestMapping("/auth")
@@ -55,5 +56,15 @@ public class AuthController {
                 .result("Password changed successfully.")
                 .build();
     }
-
+    @PutMapping("/me/avatar")
+    public ApiResponse<UserResponse> uploadMyAvatar(
+            @RequestParam("file") MultipartFile file,
+            Authentication authentication
+    ) {
+        String username = authentication.getName();
+        UserResponse response = authService.uploadMyAvatar(username, file);
+        return ApiResponse.<UserResponse>builder()
+                .result(response)
+                .build();
+    }
 }

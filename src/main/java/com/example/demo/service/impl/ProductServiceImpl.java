@@ -122,4 +122,12 @@ public class ProductServiceImpl implements ProductService {
             throw new AppException(ErrorCode.UPLOAD_FAILED);  // Xử lý lỗi khi tải ảnh lên
         }
     }
+
+    // Trong file ProductServiceImpl.java
+    @Override
+    public ProductResponse getProductById(Long productId) {
+        Product product = productRepository.findById(productId)
+                .orElseThrow(() -> new AppException(ErrorCode.PRODUCT_NOT_FOUND));
+        return productMapper.toResponse(product);
+    }
 }

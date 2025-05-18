@@ -17,4 +17,5 @@ public interface ProductService {
     List<ProductResponse> searchProducts(String name);
     List<ProductResponse> getProductsByCategory(Long categoryId);
     ProductResponse getTopRatedProduct();
+    ProductResponse getProductById(Long productId);
 }

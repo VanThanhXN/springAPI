@@ -6,6 +6,7 @@ import com.example.demo.dto.Request.UserCreateRequest;
 import com.example.demo.dto.Response.AuthResponse;
 import com.example.demo.dto.Response.UserCreateRepose;
 import com.example.demo.dto.Response.UserResponse;
+import org.springframework.web.multipart.MultipartFile;
 
 import java.util.UUID;
 
@@ -14,6 +15,7 @@ public interface AuthService {
     AuthResponse login(LoginRequest request);
     UserResponse getCurrentUser(String username);
     void changePassword(String username, ChangePasswordRequest request);
+    UserResponse uploadMyAvatar(String username, MultipartFile file);
 
 
 

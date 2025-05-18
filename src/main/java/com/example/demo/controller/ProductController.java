@@ -66,4 +66,12 @@ public class ProductController {
         List<ProductResponse> products = productService.getProductsByCategory(categoryId);
         return ApiResponse.<List<ProductResponse>>builder().result(products).build();
     }
+    // Trong file ProductController.java
+    @GetMapping("/{productId}")
+    public ApiResponse<ProductResponse> getProductById(@PathVariable Long productId) {
+        ProductResponse product = productService.getProductById(productId);
+        return ApiResponse.<ProductResponse>builder()
+                .result(product)
+                .build();
+    }
 }
