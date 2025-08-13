@@ -24,14 +24,19 @@ spring:
 server:
   port: 8080
 
-
+gemini:
+  api:
+    key: AIzaSyBU191cQNEAiQto5htn7uA9tz_9NUgk8D0
+    url: https://generativelanguage.googleapis.com/v1beta/models/gemini-2.0-flash:generateContent
 jwt:
   secret: "nSig51PtRJbWH1l5Z1DwmPeMWWnt67ZIJFU4NCs9zXOZHkGoLzhY8LCOZ1IdGz9e"
   expiration: 86400000 # 24h
 file:
  upload-dir: uploads
 
+
 #  signerKey : ${signerKey_pass}
 #  servlet:
 #    context-path: /identity
+
 

@@ -11,7 +11,8 @@ import org.mapstruct.MappingTarget;
 @Mapper(componentModel = "spring")
 public interface ProductMapper {
 
-    @Mapping(source = "category.name", target = "categoryName")  // Ánh xạ tên category từ Product sang ProductResponse
+    @Mapping(source = "category.name", target = "categoryName")
+    @Mapping(source = "reviewCount", target = "reviewCount") // Ánh xạ trực tiếp
     ProductResponse toResponse(Product product);
     Product toProduct(ProductRequest productRequest);
     void toUpdatedProduct(ProductRequest productRequest, @MappingTarget Product product);

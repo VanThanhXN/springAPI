@@ -80,4 +80,14 @@ public class OrderController {
                 .result(status)
                 .build();
     }
+
+    @GetMapping("/all")
+    public ApiResponse<List<OrderResponse>> getAllOrders() {
+        User user = getCurrentUser();
+
+        List<OrderResponse> orders = orderService.getAllOrders();
+        return ApiResponse.<List<OrderResponse>>builder()
+                .result(orders)
+                .build();
+    }
 }

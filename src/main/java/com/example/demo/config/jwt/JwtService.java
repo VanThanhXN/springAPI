@@ -1,4 +1,4 @@
-package com.example.demo.service;
+package com.example.demo.config.jwt;
 
 import com.example.demo.entity.User;
 import io.jsonwebtoken.Claims;

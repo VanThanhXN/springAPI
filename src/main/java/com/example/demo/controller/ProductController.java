@@ -1,9 +1,12 @@
 package com.example.demo.controller;
 
+import com.example.demo.Repository.ReviewRepository;
 import com.example.demo.dto.Request.ProductRequest;
+import com.example.demo.dto.Response.ProductRatingResponse;
 import com.example.demo.dto.Response.ProductResponse;
 import com.example.demo.dto.Response.ApiResponse;
 import com.example.demo.service.ProductService;
+import com.example.demo.service.ReviewService;
 import lombok.RequiredArgsConstructor;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.PageRequest;
@@ -18,6 +21,8 @@ import java.util.List;
 public class ProductController {
 
     private final ProductService productService;
+    private final ReviewRepository reviewRepository;
+    private final ReviewService reviewService;
 
     @GetMapping
     public ApiResponse<Page<ProductResponse>> getAllProducts(
@@ -74,4 +79,5 @@ public class ProductController {
                 .result(product)
                 .build();
     }
+
 }

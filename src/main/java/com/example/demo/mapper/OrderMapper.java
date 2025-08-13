@@ -12,7 +12,6 @@ import java.util.List;
 
 @Mapper(componentModel = "spring", uses = {OrderItemMapper.class})
 public interface OrderMapper {
-
     @Mapping(target = "items", source = "orderItems")
     OrderResponse toOrderResponse(Order order);
 }

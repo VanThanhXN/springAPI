@@ -42,6 +42,13 @@ public enum ErrorCode {
     ORDER_CANNOT_BE_CANCELLED(4002, "Không thể hủy đơn hàng ở trạng thái hiện tại", HttpStatus.BAD_REQUEST),
     CART_IS_EMPTY(4003, "Không thể tạo đơn hàng khi giỏ hàng trống", HttpStatus.BAD_REQUEST),
 
+    // Mã lỗi đánh giá sản phẩm
+    REVIEW_NOT_FOUND(4004, "Đánh giá không tồn tại", HttpStatus.NOT_FOUND),
+    REVIEW_ALREADY_EXISTS(4005, "Bạn đã đánh giá sản phẩm này rồi", HttpStatus.CONFLICT),
+    REVIEW_NOT_FOUND_OR_NOT_OWNED(4006, "Đánh giá không tồn tại hoặc không thuộc về bạn", HttpStatus.FORBIDDEN),
+    INVALID_PRODUCT_FOR_REVIEW(4007, "Sản phẩm không khớp với đánh giá", HttpStatus.BAD_REQUEST),
+    NOT_AUTHORIZED(4008, "Bạn không có quyền thực hiện hành động này", HttpStatus.FORBIDDEN),
+
     // Mã lỗi xử lý ảnh
     UPLOAD_FAILED(2001, "Lỗi khi tải lên ảnh", HttpStatus.INTERNAL_SERVER_ERROR),
     DELETE_IMAGE_FAILED(2002, "Lỗi khi xóa ảnh", HttpStatus.INTERNAL_SERVER_ERROR),
@@ -56,7 +63,12 @@ public enum ErrorCode {
     EXTERNAL_SERVICE_ERROR(5002, "Lỗi dịch vụ bên ngoài", HttpStatus.FAILED_DEPENDENCY),
     DATABASE_ERROR(5003, "Lỗi truy vấn cơ sở dữ liệu", HttpStatus.INTERNAL_SERVER_ERROR),
     INTERNAL_SERVER_ERROR(5000, "Lỗi nội bộ máy chủ", HttpStatus.INTERNAL_SERVER_ERROR),
-    UNCATEGORIZED_EXCEPTION(9999, "Lỗi không xác định", HttpStatus.INTERNAL_SERVER_ERROR);
+    UNCATEGORIZED_EXCEPTION(9999, "Lỗi không xác định", HttpStatus.INTERNAL_SERVER_ERROR),
+    PRODUCT_ALREADY_IN_WISHLIST(6001, "Sản phẩm đã có trong wishlist", HttpStatus.CONFLICT),
+    WISHLIST_ITEM_NOT_FOUND(6002, "Mục wishlist không tồn tại", HttpStatus.NOT_FOUND),
+    PRODUCT_NOT_IN_WISHLIST(6003, "Sản phẩm không có trong wishlist", HttpStatus.NOT_FOUND),
+    AI_SERVICE_ERROR(5004, "Lỗi khi gọi dịch vụ AI", HttpStatus.INTERNAL_SERVER_ERROR),
+    ;
 
     private final int code;
     private final String message;

@@ -16,6 +16,8 @@ public class ProductResponse {
     private BigDecimal price;
     private BigDecimal salePrice;
     private Integer stock;
+    private Integer reviewCount;
+    private Boolean inWishlist;
     private String imageUrl;
     private Double rating;
     private ProductStatus status;

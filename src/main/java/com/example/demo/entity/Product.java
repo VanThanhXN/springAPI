@@ -40,7 +40,12 @@ public class Product {
     @Column(name = "image_urls") // Nếu tên cột khác với tên trường
     private String imageUrl;
 
+    @Column(name = "review_count")
+    private Integer reviewCount = 0;
+
     private Double rating;
+
+
 
     @Enumerated(EnumType.STRING)
     private ProductStatus status; // Enum trạng thái

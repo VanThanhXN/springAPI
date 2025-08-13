@@ -1,7 +1,8 @@
 package com.example.demo.config;
 
 import com.example.demo.exception.ErrorCode;
-import com.example.demo.service.JwtService;
+//import com.example.demo.service.JwtService;
+import com.example.demo.config.jwt.JwtService;
 import io.jsonwebtoken.Claims;
 import io.jsonwebtoken.Jwts;
 import jakarta.servlet.FilterChain;

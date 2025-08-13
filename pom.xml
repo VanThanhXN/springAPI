@@ -24,6 +24,7 @@
 		<jjwt.version>0.12.5</jjwt.version>
 	</properties>
 
+
 	<dependencies>
 		<dependency>
 			<groupId>org.springframework.boot</groupId>
@@ -32,6 +33,13 @@
 		<dependency>
 			<groupId>org.springframework.boot</groupId>
 			<artifactId>spring-boot-starter-oauth2-resource-server</artifactId>
+		</dependency>
+		<!-- Vertex AI Gemini API -->
+		<!-- https://mvnrepository.com/artifact/com.google.cloud/google-cloud-vertexai -->
+		<dependency>
+			<groupId>com.google.cloud</groupId>
+			<artifactId>google-cloud-vertexai</artifactId>
+			<version>1.22.0</version>
 		</dependency>
 		<dependency>
 			<groupId>com.fasterxml.jackson.datatype</groupId>

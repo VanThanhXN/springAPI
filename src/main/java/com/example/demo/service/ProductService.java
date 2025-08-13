@@ -7,15 +7,20 @@ import org.springframework.data.domain.Pageable;
 import org.springframework.web.multipart.MultipartFile;
 
 import java.util.List;
-import java.util.UUID;
 
 public interface ProductService {
+    // Giữ nguyên các phương thức cũ
     Page<ProductResponse> getAllProducts(Pageable pageable);
-    ProductResponse addProduct(ProductRequest request, MultipartFile image); // Cập nhật với MultipartFile
-    ProductResponse updateProduct(Long productId, ProductRequest productRequest, MultipartFile image); // Cập nhật với MultipartFile
+    Page<ProductResponse> getAllProducts(Pageable pageable, String username); // Thêm phương thức mới
+
+    ProductResponse getProductById(Long productId);
+    ProductResponse getProductById(Long productId, String username); // Thêm phương thức mới
+
+    ProductResponse addProduct(ProductRequest request, MultipartFile image);
+    ProductResponse updateProduct(Long productId, ProductRequest productRequest, MultipartFile image);
     void deleteProduct(Long productId);
     List<ProductResponse> searchProducts(String name);
     List<ProductResponse> getProductsByCategory(Long categoryId);
     ProductResponse getTopRatedProduct();
-    ProductResponse getProductById(Long productId);
+    ProductResponse updateProductRating(Long productId, Double newRating);
 }

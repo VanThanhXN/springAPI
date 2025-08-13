@@ -146,4 +146,14 @@ public class OrderServiceImpl implements OrderService {
                 .message("Current order status: " + order.getStatus())
                 .build();
     }
+
+    @Override
+    @Transactional(readOnly = true)
+    public List<OrderResponse> getAllOrders() {
+        List<Order> orders = orderRepository.findAll(); // lấy tất cả order
+        return orders.stream()
+                .map(orderMapper::toOrderResponse)
+                .collect(Collectors.toList());
+    }
+
 }
